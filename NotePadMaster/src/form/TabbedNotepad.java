@@ -11,9 +11,9 @@ package form;
  */
 public class TabbedNotepad extends javax.swing.JFrame {
 
-  
+    
     public TabbedNotepad() {
-       initComponents();
+        initComponents();
     }
 
     @SuppressWarnings("unchecked")
@@ -222,48 +222,48 @@ public class TabbedNotepad extends javax.swing.JFrame {
     }//GEN-LAST:event_txtAreaKeyTyped
 
     private void editUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editUndoActionPerformed
-       
+
     }//GEN-LAST:event_editUndoActionPerformed
 
     private void fileOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileOpenActionPerformed
-      
+
     }//GEN-LAST:event_fileOpenActionPerformed
 
 
     private void fileSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileSaveActionPerformed
-       
+
     }//GEN-LAST:event_fileSaveActionPerformed
 
     private void fileNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileNewActionPerformed
-      
+
     }//GEN-LAST:event_fileNewActionPerformed
 
     private void fileExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileExitActionPerformed
-      
+
     }//GEN-LAST:event_fileExitActionPerformed
 
 
     private void txtAreaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtAreaCaretUpdate
-      
+
     }//GEN-LAST:event_txtAreaCaretUpdate
 
     private void editRedoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editRedoActionPerformed
-       
+
     }//GEN-LAST:event_editRedoActionPerformed
 
     private void findActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findActionPerformed
-       
+
     }//GEN-LAST:event_findActionPerformed
 
     private void replaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_replaceActionPerformed
-       
+
     }//GEN-LAST:event_replaceActionPerformed
 
     private void formatFontActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_formatFontActionPerformed
 
     }//GEN-LAST:event_formatFontActionPerformed
 
-    /**
+/**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -300,7 +300,7 @@ public class TabbedNotepad extends javax.swing.JFrame {
             }
         });
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JColorChooser colorChooser;
     private javax.swing.JDialog dialogColor;
@@ -330,5 +330,5 @@ public class TabbedNotepad extends javax.swing.JFrame {
     private javax.swing.JTextArea txtArea;
     // End of variables declaration//GEN-END:variables
 
-
+    
 }
