@@ -5,15 +5,28 @@
  */
 package form;
 
+import controller.MenuFile;
+import javax.swing.JTextArea;
+
 /**
  *
  * @author Sharp team
  */
 public class TabbedNotepad extends javax.swing.JFrame {
 
-    
+    MenuFile file = new MenuFile(this);
+
     public TabbedNotepad() {
         initComponents();
+        file.checkModify();
+    }
+
+    public JTextArea getTxtArea() {
+        return txtArea;
+    }
+
+    public void setTxtArea(JTextArea txtArea) {
+        this.txtArea = txtArea;
     }
 
     @SuppressWarnings("unchecked")
@@ -118,6 +131,11 @@ public class TabbedNotepad extends javax.swing.JFrame {
 
         fileSaveAs.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         fileSaveAs.setText("Save As");
+        fileSaveAs.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                fileSaveAsActionPerformed(evt);
+            }
+        });
         fileMenu.add(fileSaveAs);
 
         fileExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
@@ -226,20 +244,20 @@ public class TabbedNotepad extends javax.swing.JFrame {
     }//GEN-LAST:event_editUndoActionPerformed
 
     private void fileOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileOpenActionPerformed
-
+        file.openFile();
     }//GEN-LAST:event_fileOpenActionPerformed
 
 
     private void fileSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileSaveActionPerformed
-
+        file.saveThisFile();
     }//GEN-LAST:event_fileSaveActionPerformed
 
     private void fileNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileNewActionPerformed
-
+        file.newFile();
     }//GEN-LAST:event_fileNewActionPerformed
 
     private void fileExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileExitActionPerformed
-
+        file.exitNote();
     }//GEN-LAST:event_fileExitActionPerformed
 
 
@@ -263,7 +281,11 @@ public class TabbedNotepad extends javax.swing.JFrame {
 
     }//GEN-LAST:event_formatFontActionPerformed
 
-/**
+    private void fileSaveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileSaveAsActionPerformed
+        file.saveAsFile();
+    }//GEN-LAST:event_fileSaveAsActionPerformed
+
+    /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -300,7 +322,7 @@ public class TabbedNotepad extends javax.swing.JFrame {
             }
         });
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JColorChooser colorChooser;
     private javax.swing.JDialog dialogColor;
@@ -330,5 +352,4 @@ public class TabbedNotepad extends javax.swing.JFrame {
     private javax.swing.JTextArea txtArea;
     // End of variables declaration//GEN-END:variables
 
-    
 }
