@@ -1,6 +1,6 @@
 package controller;
 
-import form.TabbedNotepad;
+import form.MainForm;
 import javax.swing.undo.UndoManager;
 
 /**
@@ -9,9 +9,9 @@ import javax.swing.undo.UndoManager;
  */
 public class Main {
     public static void main(String[] args) {
-        TabbedNotepad mainForm = new TabbedNotepad();
+        MainForm mainForm = new MainForm();
         mainForm.setVisible(true);
-        Edit edit = new Edit();
+        MenuEdit edit = new MenuEdit();
         edit.controller(mainForm);
     }
 }

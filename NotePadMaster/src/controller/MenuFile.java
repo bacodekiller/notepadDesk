@@ -1,6 +1,6 @@
 package controller;
 
-import form.TabbedNotepad;
+import form.MainForm;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -18,7 +18,7 @@ import javax.swing.event.DocumentListener;
  */
 public class MenuFile {
 
-    private TabbedNotepad mainForm;
+    private MainForm mainForm;
 
     private boolean saved;
     private boolean newFileFlag;
@@ -56,7 +56,7 @@ public class MenuFile {
     public MenuFile() {
     }
 
-    public MenuFile(TabbedNotepad mainForm) {
+    public MenuFile(MainForm mainForm) {
         this.mainForm = mainForm;
         saved = true;
         newFileFlag = true;

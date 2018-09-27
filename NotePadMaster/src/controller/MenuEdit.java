@@ -2,7 +2,7 @@ package controller;
 
 import form.FindForm;
 import form.ReplaceForm;
-import form.TabbedNotepad;
+import form.MainForm;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.Action;
@@ -17,10 +17,10 @@ import javax.swing.undo.UndoManager;
  *
  * @author Sharp team
  */
-public class Edit {
+public class MenuEdit {
 
     // controller edit
-    public void controller(TabbedNotepad mainForm) {
+    public void controller(MainForm mainForm) {
         UndoManager manager = new UndoManager();
         mainForm.getTxtArea().getDocument().addUndoableEditListener(manager);
 
@@ -36,7 +36,7 @@ public class Edit {
     }
 
     // check user can undo/redo
-    public void isEdit(TabbedNotepad mainForm) {
+    public void isEdit(MainForm mainForm) {
         // when open editor can't undo, redo
         mainForm.getEditRedo().setEnabled(false);
         mainForm.getEditUndo().setEnabled(false);
@@ -55,7 +55,7 @@ public class Edit {
     }
 
     // undo
-    public void undo(TabbedNotepad mainForm, UndoManager manager) {
+    public void undo(MainForm mainForm, UndoManager manager) {
         mainForm.getEditUndo().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -65,7 +65,7 @@ public class Edit {
     }
 
     // redo TODO: check cannot redo, undo
-    public void redo(TabbedNotepad mainForm, UndoManager manager) {
+    public void redo(MainForm mainForm, UndoManager manager) {
         mainForm.getEditRedo().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -75,7 +75,7 @@ public class Edit {
     }
 
     // copy, past, cut
-    public void copyPasteCut(TabbedNotepad mainForm) {
+    public void copyPasteCut(MainForm mainForm) {
         Action copy = new DefaultEditorKit.CopyAction();
         Action paste = new DefaultEditorKit.PasteAction();
         Action cut = new DefaultEditorKit.CutAction();
@@ -87,7 +87,7 @@ public class Edit {
     }
 
     // delete: change text selectd by empty then set text area by text change
-    public void delete(TabbedNotepad mainForm) {
+    public void delete(MainForm mainForm) {
         mainForm.getEditDelete().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -98,7 +98,7 @@ public class Edit {
     }
 
     // find controller
-    public void findController(TabbedNotepad mainForm) {
+    public void findController(MainForm mainForm) {
         mainForm.getFind().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -110,7 +110,7 @@ public class Edit {
     }
 
     // find
-    public void find(TabbedNotepad mainForm, FindForm findForm) {
+    public void find(MainForm mainForm, FindForm findForm) {
         // when user click button find
         findForm.getBtnFind().addActionListener(new ActionListener() {
             @Override
@@ -156,7 +156,7 @@ public class Edit {
     }
 
     // replace controller
-    public void replaceController(TabbedNotepad mainForm) {
+    public void replaceController(MainForm mainForm) {
         mainForm.getReplace().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -168,7 +168,7 @@ public class Edit {
     }
 
     //replace
-    public void replace(TabbedNotepad mainForm, ReplaceForm replace) {
+    public void replace(MainForm mainForm, ReplaceForm replace) {
         // when user click replace
         replace.getBtnReplace().addActionListener(new ActionListener() {
             @Override

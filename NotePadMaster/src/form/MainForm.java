@@ -1,22 +1,18 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package form;
 
 import controller.MenuFile;
+import javax.swing.JMenuItem;
 import javax.swing.JTextArea;
 
 /**
  *
  * @author Sharp team
  */
-public class TabbedNotepad extends javax.swing.JFrame {
+public class MainForm extends javax.swing.JFrame {
 
     MenuFile file = new MenuFile(this);
 
-    public TabbedNotepad() {
+    public MainForm() {
         initComponents();
         file.checkModify();
     }
@@ -28,6 +24,72 @@ public class TabbedNotepad extends javax.swing.JFrame {
     public void setTxtArea(JTextArea txtArea) {
         this.txtArea = txtArea;
     }
+
+    public JMenuItem getEditCopy() {
+        return editCopy;
+    }
+
+    public void setEditCopy(JMenuItem editCopy) {
+        this.editCopy = editCopy;
+    }
+
+    public JMenuItem getEditCut() {
+        return editCut;
+    }
+
+    public void setEditCut(JMenuItem editCut) {
+        this.editCut = editCut;
+    }
+
+    public JMenuItem getEditDelete() {
+        return editDelete;
+    }
+
+    public void setEditDelete(JMenuItem editDelete) {
+        this.editDelete = editDelete;
+    }
+
+    public JMenuItem getEditPaste() {
+        return editPaste;
+    }
+
+    public void setEditPaste(JMenuItem editPaste) {
+        this.editPaste = editPaste;
+    }
+
+    public JMenuItem getEditRedo() {
+        return editRedo;
+    }
+
+    public void setEditRedo(JMenuItem editRedo) {
+        this.editRedo = editRedo;
+    }
+
+    public JMenuItem getEditUndo() {
+        return editUndo;
+    }
+
+    public void setEditUndo(JMenuItem editUndo) {
+        this.editUndo = editUndo;
+    }
+
+    public JMenuItem getFind() {
+        return find;
+    }
+
+    public void setFind(JMenuItem find) {
+        this.find = find;
+    }
+
+    public JMenuItem getReplace() {
+        return replace;
+    }
+
+    public void setReplace(JMenuItem replace) {
+        this.replace = replace;
+    }
+    
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -247,7 +309,6 @@ public class TabbedNotepad extends javax.swing.JFrame {
         file.openFile();
     }//GEN-LAST:event_fileOpenActionPerformed
 
-
     private void fileSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileSaveActionPerformed
         file.saveThisFile();
     }//GEN-LAST:event_fileSaveActionPerformed
@@ -284,44 +345,6 @@ public class TabbedNotepad extends javax.swing.JFrame {
     private void fileSaveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileSaveAsActionPerformed
         file.saveAsFile();
     }//GEN-LAST:event_fileSaveAsActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TabbedNotepad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TabbedNotepad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TabbedNotepad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TabbedNotepad.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new TabbedNotepad().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JColorChooser colorChooser;
