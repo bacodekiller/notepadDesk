@@ -1,6 +1,6 @@
 package form;
 
-import controller.MenuFile;
+import java.io.File;
 import javax.swing.JMenuItem;
 import javax.swing.JTextArea;
 
@@ -9,12 +9,14 @@ import javax.swing.JTextArea;
  * @author Sharp team
  */
 public class MainForm extends javax.swing.JFrame {
-
-    MenuFile file = new MenuFile(this);
+    
+    private String textCheckSaved = "";
+    private boolean saved = true;
+    private File file = null;
 
     public MainForm() {
         initComponents();
-        file.checkModify();
+        this.setTitle("My Text Editor(MTE)");
     }
 
     public JTextArea getTxtArea() {
@@ -42,11 +44,11 @@ public class MainForm extends javax.swing.JFrame {
     }
 
     public JMenuItem getEditDelete() {
-        return editDelete;
+        return editSelectAll;
     }
 
     public void setEditDelete(JMenuItem editDelete) {
-        this.editDelete = editDelete;
+        this.editSelectAll = editDelete;
     }
 
     public JMenuItem getEditPaste() {
@@ -88,9 +90,73 @@ public class MainForm extends javax.swing.JFrame {
     public void setReplace(JMenuItem replace) {
         this.replace = replace;
     }
-    
-    
 
+    public JMenuItem getFileExit() {
+        return fileExit;
+    }
+
+    public void setFileExit(JMenuItem fileExit) {
+        this.fileExit = fileExit;
+    }
+
+    public JMenuItem getFileNew() {
+        return fileNew;
+    }
+
+    public void setFileNew(JMenuItem fileNew) {
+        this.fileNew = fileNew;
+    }
+
+    public JMenuItem getFileOpen() {
+        return fileOpen;
+    }
+
+    public void setFileOpen(JMenuItem fileOpen) {
+        this.fileOpen = fileOpen;
+    }
+
+    public JMenuItem getFileSave() {
+        return fileSave;
+    }
+
+    public void setFileSave(JMenuItem fileSave) {
+        this.fileSave = fileSave;
+    }
+
+    public JMenuItem getFileSaveAs() {
+        return fileSaveAs;
+    }
+
+    public void setFileSaveAs(JMenuItem fileSaveAs) {
+        this.fileSaveAs = fileSaveAs;
+    }  
+
+    public boolean isSaved() {
+        return saved;
+    }
+
+    public void setSaved(boolean saved) {
+        this.saved = saved;
+    }
+
+    public File getFile() {
+        return file;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
+
+    public String getTextCheckSaved() {
+        return textCheckSaved;
+    }
+
+    public void setTextCheckSaved(String textCheckSaved) {
+        this.textCheckSaved = textCheckSaved;
+    }
+    
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -101,26 +167,25 @@ public class MainForm extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         txtArea = new javax.swing.JTextArea();
         menuBar = new javax.swing.JMenuBar();
-        fileMenu = new javax.swing.JMenu();
+        menuFile = new javax.swing.JMenu();
         fileNew = new javax.swing.JMenuItem();
         fileOpen = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         fileSave = new javax.swing.JMenuItem();
         fileSaveAs = new javax.swing.JMenuItem();
         fileExit = new javax.swing.JMenuItem();
-        editMenu = new javax.swing.JMenu();
+        menuEdit = new javax.swing.JMenu();
         editUndo = new javax.swing.JMenuItem();
         editRedo = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         editCut = new javax.swing.JMenuItem();
         editCopy = new javax.swing.JMenuItem();
         editPaste = new javax.swing.JMenuItem();
-        editDelete = new javax.swing.JMenuItem();
+        editSelectAll = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
         find = new javax.swing.JMenuItem();
         replace = new javax.swing.JMenuItem();
-        formatMenu = new javax.swing.JMenu();
-        formatFont = new javax.swing.JMenuItem();
+        editChangeFont = new javax.swing.JMenuItem();
 
         javax.swing.GroupLayout dialogColorLayout = new javax.swing.GroupLayout(dialogColor.getContentPane());
         dialogColor.getContentPane().setLayout(dialogColorLayout);
@@ -149,137 +214,60 @@ public class MainForm extends javax.swing.JFrame {
 
         txtArea.setColumns(20);
         txtArea.setRows(5);
-        txtArea.addCaretListener(new javax.swing.event.CaretListener() {
-            public void caretUpdate(javax.swing.event.CaretEvent evt) {
-                txtAreaCaretUpdate(evt);
-            }
-        });
-        txtArea.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtAreaKeyTyped(evt);
-            }
-        });
         jScrollPane2.setViewportView(txtArea);
 
-        fileMenu.setText("File");
+        menuFile.setText("File");
 
-        fileNew.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_MASK));
         fileNew.setText("New");
-        fileNew.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fileNewActionPerformed(evt);
-            }
-        });
-        fileMenu.add(fileNew);
+        menuFile.add(fileNew);
 
-        fileOpen.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         fileOpen.setText("Open");
-        fileOpen.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fileOpenActionPerformed(evt);
-            }
-        });
-        fileMenu.add(fileOpen);
-        fileMenu.add(jSeparator1);
+        menuFile.add(fileOpen);
+        menuFile.add(jSeparator1);
 
-        fileSave.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
         fileSave.setText("Save");
-        fileSave.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fileSaveActionPerformed(evt);
-            }
-        });
-        fileMenu.add(fileSave);
+        menuFile.add(fileSave);
 
-        fileSaveAs.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.SHIFT_MASK | java.awt.event.InputEvent.CTRL_MASK));
         fileSaveAs.setText("Save As");
-        fileSaveAs.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fileSaveAsActionPerformed(evt);
-            }
-        });
-        fileMenu.add(fileSaveAs);
+        menuFile.add(fileSaveAs);
 
-        fileExit.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, java.awt.event.InputEvent.ALT_MASK));
         fileExit.setText("Exit ");
-        fileExit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fileExitActionPerformed(evt);
-            }
-        });
-        fileMenu.add(fileExit);
+        menuFile.add(fileExit);
 
-        menuBar.add(fileMenu);
+        menuBar.add(menuFile);
 
-        editMenu.setText("Edit");
+        menuEdit.setText("Edit");
 
-        editUndo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_MASK));
         editUndo.setText("Undo");
-        editUndo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editUndoActionPerformed(evt);
-            }
-        });
-        editMenu.add(editUndo);
+        menuEdit.add(editUndo);
 
-        editRedo.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_MASK));
         editRedo.setText("Redo");
-        editRedo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                editRedoActionPerformed(evt);
-            }
-        });
-        editMenu.add(editRedo);
-        editMenu.add(jSeparator2);
+        menuEdit.add(editRedo);
+        menuEdit.add(jSeparator2);
 
-        editCut.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
         editCut.setText("Cut");
-        editMenu.add(editCut);
+        menuEdit.add(editCut);
 
-        editCopy.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
         editCopy.setText("Copy");
-        editMenu.add(editCopy);
+        menuEdit.add(editCopy);
 
-        editPaste.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
         editPaste.setText("Paste");
-        editMenu.add(editPaste);
+        menuEdit.add(editPaste);
 
-        editDelete.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_BACK_SPACE, 0));
-        editDelete.setText("Delete");
-        editMenu.add(editDelete);
-        editMenu.add(jSeparator3);
+        editSelectAll.setText("SelectAll");
+        menuEdit.add(editSelectAll);
+        menuEdit.add(jSeparator3);
 
-        find.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F, java.awt.event.InputEvent.CTRL_MASK));
         find.setText("Find");
-        find.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                findActionPerformed(evt);
-            }
-        });
-        editMenu.add(find);
+        menuEdit.add(find);
 
-        replace.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_H, java.awt.event.InputEvent.CTRL_MASK));
         replace.setText("Replace");
-        replace.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                replaceActionPerformed(evt);
-            }
-        });
-        editMenu.add(replace);
+        menuEdit.add(replace);
 
-        menuBar.add(editMenu);
+        editChangeFont.setText("Change font");
+        menuEdit.add(editChangeFont);
 
-        formatMenu.setText("Format");
-
-        formatFont.setText("Font");
-        formatFont.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                formatFontActionPerformed(evt);
-            }
-        });
-        formatMenu.add(formatFont);
-
-        menuBar.add(formatMenu);
+        menuBar.add(menuEdit);
 
         setJMenuBar(menuBar);
 
@@ -297,80 +285,31 @@ public class MainForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtAreaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtAreaKeyTyped
-
-    }//GEN-LAST:event_txtAreaKeyTyped
-
-    private void editUndoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editUndoActionPerformed
-
-    }//GEN-LAST:event_editUndoActionPerformed
-
-    private void fileOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileOpenActionPerformed
-        file.openFile();
-    }//GEN-LAST:event_fileOpenActionPerformed
-
-    private void fileSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileSaveActionPerformed
-        file.saveThisFile();
-    }//GEN-LAST:event_fileSaveActionPerformed
-
-    private void fileNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileNewActionPerformed
-        file.newFile();
-    }//GEN-LAST:event_fileNewActionPerformed
-
-    private void fileExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileExitActionPerformed
-        file.exitNote();
-    }//GEN-LAST:event_fileExitActionPerformed
-
-
-    private void txtAreaCaretUpdate(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_txtAreaCaretUpdate
-
-    }//GEN-LAST:event_txtAreaCaretUpdate
-
-    private void editRedoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editRedoActionPerformed
-
-    }//GEN-LAST:event_editRedoActionPerformed
-
-    private void findActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_findActionPerformed
-
-    }//GEN-LAST:event_findActionPerformed
-
-    private void replaceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_replaceActionPerformed
-
-    }//GEN-LAST:event_replaceActionPerformed
-
-    private void formatFontActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_formatFontActionPerformed
-
-    }//GEN-LAST:event_formatFontActionPerformed
-
-    private void fileSaveAsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileSaveAsActionPerformed
-        file.saveAsFile();
-    }//GEN-LAST:event_fileSaveAsActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JColorChooser colorChooser;
     private javax.swing.JDialog dialogColor;
+    private javax.swing.JMenuItem editChangeFont;
     private javax.swing.JMenuItem editCopy;
     private javax.swing.JMenuItem editCut;
-    private javax.swing.JMenuItem editDelete;
-    private javax.swing.JMenu editMenu;
     private javax.swing.JMenuItem editPaste;
     private javax.swing.JMenuItem editRedo;
+    private javax.swing.JMenuItem editSelectAll;
     private javax.swing.JMenuItem editUndo;
     public javax.swing.JMenuItem fileExit;
-    private javax.swing.JMenu fileMenu;
     private javax.swing.JMenuItem fileNew;
     public javax.swing.JMenuItem fileOpen;
     private javax.swing.JMenuItem fileSave;
     private javax.swing.JMenuItem fileSaveAs;
     private javax.swing.JMenuItem find;
-    private javax.swing.JMenuItem formatFont;
-    private javax.swing.JMenu formatMenu;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JMenuBar menuBar;
+    private javax.swing.JMenu menuEdit;
+    private javax.swing.JMenu menuFile;
     private javax.swing.JMenuItem replace;
     private javax.swing.JTextArea txtArea;
     // End of variables declaration//GEN-END:variables

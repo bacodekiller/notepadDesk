@@ -1,7 +1,6 @@
 package controller;
 
 import form.MainForm;
-import javax.swing.undo.UndoManager;
 
 /**
  *
@@ -13,5 +12,7 @@ public class Main {
         mainForm.setVisible(true);
         MenuEdit edit = new MenuEdit();
         edit.controller(mainForm);
+        MenuFile file = new MenuFile();
+        file.controller(mainForm);
     }
 }

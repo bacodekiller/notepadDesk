@@ -3,13 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/thaycacac/Documents/CODE/notepadDesk/NotePadMaster/src/form/FindForm.java</file>
-            <file>file:/Users/thaycacac/Documents/CODE/notepadDesk/NotePadMaster/src/controller/File.java</file>
+            <file>file:/Users/thaycacac/Documents/CODE/notepadDesk/NotePadMaster/src/form/MainForm.java</file>
+            <file>file:/Users/thaycacac/Documents/CODE/notepadDesk/NotePadMaster/src/controller/MenuFile.java</file>
             <file>file:/Users/thaycacac/Documents/CODE/notepadDesk/NotePadMaster/src/controller/Main.java</file>
-            <file>file:/Users/thaycacac/Documents/CODE/notepadDesk/NotePadMaster/src/controller/Edit.java</file>
-            <file>file:/Users/thaycacac/Documents/CODE/notepadDesk/NotePadMaster/src/form/TabbedNotepad.java</file>
-            <file>file:/Users/hiepdo/Documents/notepadDesk/NotePadMaster/src/controller/MenuFile.java</file>
-            <file>file:/Users/hiepdo/Documents/notepadDesk/NotePadMaster/src/form/TabbedNotepad.java</file>
+            <file>file:/Users/thaycacac/Documents/CODE/notepadDesk/NotePadMaster/src/controller/MenuEdit.java</file>
         </group>
     </open-files>
 </project-private>

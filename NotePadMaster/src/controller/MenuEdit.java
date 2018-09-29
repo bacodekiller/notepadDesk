@@ -24,22 +24,26 @@ public class MenuEdit {
         UndoManager manager = new UndoManager();
         mainForm.getTxtArea().getDocument().addUndoableEditListener(manager);
 
-        isEdit(mainForm);
+        enableEdit(mainForm);
 
         undo(mainForm, manager);
         redo(mainForm, manager);
         copyPasteCut(mainForm);
-        delete(mainForm);
+        selectAll(mainForm);
 
         findController(mainForm);
         replaceController(mainForm);
     }
 
     // check user can undo/redo
-    public void isEdit(MainForm mainForm) {
+    private void enableEdit(MainForm mainForm) {
         // when open editor can't undo, redo
-        mainForm.getEditRedo().setEnabled(false);
-        mainForm.getEditUndo().setEnabled(false);
+        mainForm.getEditCopy().setEnabled(false);
+        mainForm.getEditCut().setEnabled(false);
+        mainForm.getFind().setEnabled(false);
+        mainForm.getReplace().setEnabled(false);
+        mainForm.getEditDelete().setEnabled(false);
+
         // check when content text area change
         mainForm.getTxtArea().addCaretListener(new CaretListener() {
             @Override
@@ -47,15 +51,20 @@ public class MenuEdit {
                 String textCurrent = mainForm.getTxtArea().getText();
                 // can undo redo when user change text
                 if (textCurrent.length() != 0) {
-                    mainForm.getEditRedo().setEnabled(true);
-                    mainForm.getEditUndo().setEnabled(true);
+                    mainForm.getEditCopy().setEnabled(true);
+                    mainForm.getEditCut().setEnabled(true);
+                    mainForm.getFind().setEnabled(true);
+                    mainForm.getReplace().setEnabled(true);
+                    mainForm.getEditDelete().setEnabled(true);
                 }
             }
         });
     }
 
     // undo
-    public void undo(MainForm mainForm, UndoManager manager) {
+    private void undo(MainForm mainForm, UndoManager manager) {
+        //  FIXME: check can not undo, redo
+        // FIXME: have undo then show redo
         mainForm.getEditUndo().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -65,7 +74,7 @@ public class MenuEdit {
     }
 
     // redo TODO: check cannot redo, undo
-    public void redo(MainForm mainForm, UndoManager manager) {
+    private void redo(MainForm mainForm, UndoManager manager) {
         mainForm.getEditRedo().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -75,7 +84,7 @@ public class MenuEdit {
     }
 
     // copy, past, cut
-    public void copyPasteCut(MainForm mainForm) {
+    private void copyPasteCut(MainForm mainForm) {
         Action copy = new DefaultEditorKit.CopyAction();
         Action paste = new DefaultEditorKit.PasteAction();
         Action cut = new DefaultEditorKit.CutAction();
@@ -86,67 +95,68 @@ public class MenuEdit {
 
     }
 
-    // delete: change text selectd by empty then set text area by text change
-    public void delete(MainForm mainForm) {
+    // select all
+    private void selectAll(MainForm mainForm) {
         mainForm.getEditDelete().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String textChange = mainForm.getTxtArea().getText().replace(mainForm.getTxtArea().getSelectedText(), "");
-                mainForm.getTxtArea().setText(textChange);
+                mainForm.getTxtArea().selectAll();
             }
         });
     }
 
     // find controller
-    public void findController(MainForm mainForm) {
+    private void findController(MainForm mainForm) {
         mainForm.getFind().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                FindForm find = new FindForm(mainForm, true);
-                find.setVisible(true);
-                find(mainForm, find);
+                FindForm findForm = new FindForm(mainForm, true);
+                findForm.setVisible(true);
+                findForm.getBtnFind().setEnabled(false);
+
+                checkEmptyFind(findForm);
+                find(mainForm, findForm);
+                cancelFind(findForm);
             }
         });
     }
 
     // find
-    public void find(MainForm mainForm, FindForm findForm) {
+    private void find(MainForm mainForm, FindForm findForm) {
         // when user click button find
         findForm.getBtnFind().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // check textarea empty to show warning
-                if (mainForm.getTxtArea().getText().isEmpty()) {
-                    JOptionPane.showConfirmDialog(findForm, "No text field found!!!", "Error", 1);
+                String txtFind = findForm.getTxtFind().getText();
+                int indexCurrent;
+                int indexTextSearch = -1;
+                // check user want to find after
+                if (findForm.getIsDown().isSelected()) {
+                    // must choose selectionend to change index cusor
+                    indexCurrent = mainForm.getTxtArea().getSelectionEnd();
+                    indexTextSearch = mainForm.getTxtArea().getText().indexOf(txtFind, indexCurrent);
                 } else {
-                    String txtFind = findForm.getTxtFind().getText();
-                    int indexCurrent;
-                    int indexTextSearch = -1;
-                    // check user want to find after
-                    if (findForm.getIsDown().isSelected()) {
-                        // must choose selectionend to change index cusor
-                        indexCurrent = mainForm.getTxtArea().getSelectionEnd();
-                        indexTextSearch = mainForm.getTxtArea().getText().indexOf(txtFind, indexCurrent);
-                    } else {
-                        try {
-                            indexCurrent = mainForm.getTxtArea().getSelectionStart();
-                            String textCurrentCheck = mainForm.getTxtArea().getText(0, indexCurrent);
-                            indexTextSearch = textCurrentCheck.lastIndexOf(txtFind);
-                        } catch (BadLocationException ex) {
-                            ex.printStackTrace();
-                        }
+                    try {
+                        indexCurrent = mainForm.getTxtArea().getSelectionStart();
+                        String textCurrentCheck = mainForm.getTxtArea().getText(0, indexCurrent);
+                        indexTextSearch = textCurrentCheck.lastIndexOf(txtFind);
+                    } catch (BadLocationException ex) {
+                        ex.printStackTrace();
                     }
-                    // check have text want to search or not
-                    if (indexTextSearch != -1) {
-                        mainForm.getTxtArea().setSelectionStart(indexTextSearch);
-                        mainForm.getTxtArea().setSelectionEnd(indexTextSearch + txtFind.length());
-                    } else {
-                        JOptionPane.showConfirmDialog(findForm, "Cannot find \"" + txtFind + "\"", "Result", 1);
-                    }
+                }
+                // check have text want to search or not
+                if (indexTextSearch != -1) {
+                    mainForm.getTxtArea().setSelectionStart(indexTextSearch);
+                    mainForm.getTxtArea().setSelectionEnd(indexTextSearch + txtFind.length());
+                } else {
+                    JOptionPane.showConfirmDialog(findForm, "Cannot find \"" + txtFind + "\"", "Result", 1);
                 }
             }
         });
-        // when user click button cancel
+    }
+
+    // when user click button cancel
+    private void cancelFind(FindForm findForm) {
         findForm.getBtnCancel().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -155,57 +165,92 @@ public class MenuEdit {
         });
     }
 
+    // check user not input
+    private void checkEmptyFind(FindForm findForm) {
+        findForm.getTxtFind().addCaretListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                if (findForm.getTxtFind().getText().trim().isEmpty()) {
+                    findForm.getBtnFind().setEnabled(false);
+                } else {
+                    findForm.getBtnFind().setEnabled(true);
+                }
+            }
+        });
+    }
+
     // replace controller
-    public void replaceController(MainForm mainForm) {
+    private void replaceController(MainForm mainForm) {
         mainForm.getReplace().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ReplaceForm replace = new ReplaceForm(mainForm, false);
-                replace.setVisible(true);
-                replace(mainForm, replace);
+                ReplaceForm replaceForm = new ReplaceForm(mainForm, false);
+                replaceForm.setVisible(true);
+                replaceForm.getBtnReplace().setEnabled(false);
+                replaceForm.getBtnReplaceAll().setEnabled(false);
+
+                checkEmptyReplace(replaceForm);
+                replace(mainForm, replaceForm);
+                replaceAll(mainForm, replaceForm);
+                cancelReplace(replaceForm);
+            }
+        });
+    }
+
+    // check empty replace 
+    private void checkEmptyReplace(ReplaceForm replaceForm) {
+        replaceForm.getTxtFind().addCaretListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                if (replaceForm.getTxtFind().getText().trim().isEmpty()) {
+                    replaceForm.getBtnReplace().setEnabled(false);
+                    replaceForm.getBtnReplaceAll().setEnabled(false);
+                } else {
+                    replaceForm.getBtnReplace().setEnabled(true);
+                    replaceForm.getBtnReplaceAll().setEnabled(true);
+                }
             }
         });
     }
 
     //replace
-    public void replace(MainForm mainForm, ReplaceForm replace) {
-        // when user click replace
-        replace.getBtnReplace().addActionListener(new ActionListener() {
+    public void replace(MainForm mainForm, ReplaceForm replaceForm) {
+        replaceForm.getBtnReplace().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // check textarea empty to show warning
-                if (mainForm.getTxtArea().getText().isEmpty()) {
-                    JOptionPane.showConfirmDialog(replace, "No text field found!!!", "Error", 1);
-                } else {
-                    String textAreaCurrent = mainForm.getTxtArea().getText();
-                    String textFind = replace.getTxtFind().getText();
-                    String textReplace = replace.getTxtReplace().getText();
-                    mainForm.getTxtArea().setText(textAreaCurrent.replaceFirst(textFind, textReplace));
-                }
+
+                String textAreaCurrent = mainForm.getTxtArea().getText();
+                String textFind = replaceForm.getTxtFind().getText();
+                String textReplace = replaceForm.getTxtReplace().getText();
+                mainForm.getTxtArea().setText(textAreaCurrent.replaceFirst(textFind, textReplace));
             }
         });
+    }
 
-        // when user click replace all
-        replace.getBtnReplaceAll().addActionListener(new ActionListener() {
+    // replace all
+    private void replaceAll(MainForm mainForm, ReplaceForm replaceForm) {
+        replaceForm.getBtnReplaceAll().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // check textarea empty to show warning
                 if (mainForm.getTxtArea().getText().isEmpty()) {
-                    JOptionPane.showConfirmDialog(replace, "No text field found!!!", "Error", 1);
+                    JOptionPane.showConfirmDialog(replaceForm, "No text field found!!!", "Error", 1);
                 } else {
                     String textAreaCurrent = mainForm.getTxtArea().getText();
-                    String textFind = replace.getTxtFind().getText();
-                    String textReplace = replace.getTxtReplace().getText();
+                    String textFind = replaceForm.getTxtFind().getText();
+                    String textReplace = replaceForm.getTxtReplace().getText();
                     mainForm.getTxtArea().setText(textAreaCurrent.replaceAll(textFind, textReplace));
                 }
             }
         });
+    }
 
-        // when user click cancel
-        replace.getBtnCancel().addActionListener(new ActionListener() {
+    // cancel replace
+    private void cancelReplace(ReplaceForm replaceForm) {
+        replaceForm.getBtnCancel().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                replace.setVisible(false);
+                replaceForm.setVisible(false);
             }
         });
     }
