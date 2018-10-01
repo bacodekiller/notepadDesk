@@ -83,6 +83,7 @@ public class MenuFile {
             @Override
             public void actionPerformed(ActionEvent e) {
                 writeTextAreaToFile(mainForm, chooser);
+                mainForm.setSaved(true);
             }
         });
     }
@@ -126,6 +127,7 @@ public class MenuFile {
                 mainForm.getTxtArea().setText("");
                 // write content file to text area
                 writeFileToTextArea(mainForm);
+                mainForm.setSaved(true);
             }
         });
     }
@@ -174,6 +176,7 @@ public class MenuFile {
             }
             // when user open, not change then file save
             mainForm.setTextCheckSaved(mainForm.getTxtArea().getText());
+            mainForm.setSaved(true);
             mainForm.getTxtArea().setCaretPosition(0);
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
@@ -227,7 +230,7 @@ public class MenuFile {
         mainForm.getTxtArea().addCaretListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                if (mainForm.getTxtArea().getText().equals(mainForm.getTextCheckSaved())) {
+                if (!mainForm.getTxtArea().getText().equals(mainForm.getTextCheckSaved())) {
                     mainForm.setSaved(false);
                 }
             }
@@ -241,7 +244,6 @@ public class MenuFile {
         boolean checkSaved = mainForm.isSaved();
         if (checkSaved == false) {
             int x = JOptionPane.showConfirmDialog(mainForm, message, "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
-
             if (x == JOptionPane.YES_OPTION) {
                 if (mainForm.getFile() == null) {
                     saveAsToFile(mainForm, chooser);
@@ -249,7 +251,8 @@ public class MenuFile {
                     writeTextAreaToFile(mainForm, chooser);
                 }
             }
-            if (x == JOptionPane.CANCEL_OPTION) {
+            //// user click close when x == -1 
+            if (x == JOptionPane.CANCEL_OPTION || x == -1) {
                 return true;
             }
         }
