@@ -120,7 +120,6 @@ public class MenuFile {
                         break;
                     }
                     JOptionPane.showMessageDialog(mainForm, "File not found", "Open", JOptionPane.INFORMATION_MESSAGE);
-
                 }
                 mainForm.setFile(fileCheck);
                 // clear text area
