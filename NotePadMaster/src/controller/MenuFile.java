@@ -77,7 +77,7 @@ public class MenuFile {
 
     }
 
-    // allow user sava file
+    // allow user save file
     private void saveFile(MainForm mainForm, JFileChooser chooser) {
         mainForm.getFileSave().addActionListener(new ActionListener() {
             @Override

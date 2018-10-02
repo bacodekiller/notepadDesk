@@ -1,5 +1,6 @@
 package controller;
 
+import form.ChangeFontForm;
 import form.FindForm;
 import form.ReplaceForm;
 import form.MainForm;
@@ -23,16 +24,18 @@ public class MenuEdit {
     public void controller(MainForm mainForm) {
         UndoManager manager = new UndoManager();
         mainForm.getTxtArea().getDocument().addUndoableEditListener(manager);
-
+        
         enableEdit(mainForm);
-
+        checkUndoRedo(mainForm, manager);
+        
         undo(mainForm, manager);
         redo(mainForm, manager);
         copyPasteCut(mainForm);
         selectAll(mainForm);
-
+        
         findController(mainForm);
         replaceController(mainForm);
+        changeFontController(mainForm);
     }
 
     // check user can undo/redo
@@ -88,11 +91,11 @@ public class MenuEdit {
         Action copy = new DefaultEditorKit.CopyAction();
         Action paste = new DefaultEditorKit.PasteAction();
         Action cut = new DefaultEditorKit.CutAction();
-
+        
         mainForm.getEditCopy().addActionListener(copy);
         mainForm.getEditPaste().addActionListener(paste);
         mainForm.getEditCut().addActionListener(cut);
-
+        
     }
 
     // select all
@@ -113,7 +116,7 @@ public class MenuEdit {
                 FindForm findForm = new FindForm(mainForm, true);
                 findForm.setVisible(true);
                 findForm.getBtnFind().setEnabled(false);
-
+                
                 checkEmptyFind(findForm);
                 find(mainForm, findForm);
                 cancelFind(findForm);
@@ -149,7 +152,7 @@ public class MenuEdit {
                     mainForm.getTxtArea().setSelectionStart(indexTextSearch);
                     mainForm.getTxtArea().setSelectionEnd(indexTextSearch + txtFind.length());
                 } else {
-                    JOptionPane.showConfirmDialog(findForm, "Cannot find \"" + txtFind + "\"", "Result", 1);
+                    JOptionPane.showMessageDialog(findForm, "Cannot find \"" + txtFind + "\"", "Result", 2);
                 }
             }
         });
@@ -188,7 +191,7 @@ public class MenuEdit {
                 replaceForm.setVisible(true);
                 replaceForm.getBtnReplace().setEnabled(false);
                 replaceForm.getBtnReplaceAll().setEnabled(false);
-
+                
                 checkEmptyReplace(replaceForm);
                 replace(mainForm, replaceForm);
                 replaceAll(mainForm, replaceForm);
@@ -218,11 +221,21 @@ public class MenuEdit {
         replaceForm.getBtnReplace().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
                 String textAreaCurrent = mainForm.getTxtArea().getText();
                 String textFind = replaceForm.getTxtFind().getText();
                 String textReplace = replaceForm.getTxtReplace().getText();
                 mainForm.getTxtArea().setText(textAreaCurrent.replaceFirst(textFind, textReplace));
+                int indexCurrent = mainForm.getTxtArea().getText().lastIndexOf(textReplace) + textReplace.length();
+                
+                int indexTextSearch = -1;
+                indexTextSearch = mainForm.getTxtArea().getText().indexOf(textFind, indexCurrent);
+                // check have text want to search or not
+                if (indexTextSearch != -1) {
+                    mainForm.getTxtArea().setSelectionStart(indexTextSearch);
+                    mainForm.getTxtArea().setSelectionEnd(indexTextSearch + textFind.length());
+                } else {
+                    JOptionPane.showMessageDialog(replaceForm, "Cannot find \"" + textFind + "\"", "Result", 2);
+                }
             }
         });
     }
@@ -234,7 +247,7 @@ public class MenuEdit {
             public void actionPerformed(ActionEvent e) {
                 // check textarea empty to show warning
                 if (mainForm.getTxtArea().getText().isEmpty()) {
-                    JOptionPane.showConfirmDialog(replaceForm, "No text field found!!!", "Error", 1);
+                    JOptionPane.showMessageDialog(replaceForm, "No text field found!!!", "Error", 2);
                 } else {
                     String textAreaCurrent = mainForm.getTxtArea().getText();
                     String textFind = replaceForm.getTxtFind().getText();
@@ -253,5 +266,33 @@ public class MenuEdit {
                 replaceForm.setVisible(false);
             }
         });
+    }
+
+    // check can undo redo 
+    private void checkUndoRedo(MainForm mainForm, UndoManager manager) {
+        // when new app, user can't undo redo
+        mainForm.getEditUndo().setEnabled(false);
+        mainForm.getEditRedo().setEnabled(false);
+        mainForm.getTxtArea().addCaretListener(new CaretListener() {
+            @Override
+            public void caretUpdate(CaretEvent e) {
+                
+                if (manager.canUndo()) {
+                    mainForm.getEditUndo().setEnabled(true);
+                } else {
+                    mainForm.getEditUndo().setEnabled(false);
+                }
+                if (manager.canRedo()) {
+                    mainForm.getEditRedo().setEnabled(true);
+                } else {
+                    mainForm.getEditRedo().setEnabled(false);
+                }
+            }
+        });
+    }
+    
+    private void changeFontController (MainForm mainForm){
+        ChangeFontForm changeFontForm = new ChangeFontForm();
+        changeFontForm.setVisible(true);
     }
 }
