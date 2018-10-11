@@ -293,6 +293,5 @@ public class MenuEdit {
     
     private void changeFontController (MainForm mainForm){
         ChangeFontForm changeFontForm = new ChangeFontForm();
-        changeFontForm.setVisible(true);
     }
 }
