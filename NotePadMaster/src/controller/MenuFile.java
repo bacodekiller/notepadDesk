@@ -3,6 +3,8 @@ package controller;
 import form.MainForm;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,6 +13,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
@@ -25,14 +28,15 @@ public class MenuFile {
     // controller file
     public void controller(MainForm mainForm) {
         JFileChooser chooser = new JFileChooser();
-
+        
         setupFileChoose(chooser);
         newFile(mainForm, chooser);
         openFile(mainForm, chooser);
         saveFile(mainForm, chooser);
         saveAsFile(mainForm, chooser);
         exitNote(mainForm, chooser);
-
+        checkClose(mainForm, chooser);
+        
         checkSaved(mainForm);
     }
 
@@ -48,7 +52,7 @@ public class MenuFile {
                     return f.getName().endsWith(".java");
                 }
             }
-
+            
             @Override
             public String getDescription() {
                 return "Java Source File(*.java)";
@@ -65,7 +69,7 @@ public class MenuFile {
                     return f.getName().endsWith(".txt");
                 }
             }
-
+            
             @Override
             public String getDescription() {
                 return "Text Files(*.txt)";
@@ -74,7 +78,7 @@ public class MenuFile {
 
         // set current directory
         chooser.setCurrentDirectory(new File("."));
-
+        
     }
 
     // allow user save file
@@ -258,4 +262,35 @@ public class MenuFile {
         return false;
     }
 
+    // check user want to close or not
+    private void checkClose(MainForm mainForm, JFileChooser chooser) {
+        mainForm.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        mainForm.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent we) {
+                String message = "<html><div style = 'color:blue'>Do you want to save the changes to file </div><html>";
+                // check user choose yes or no
+                boolean checkSaved = mainForm.isSaved();
+                if (checkSaved == false) {
+                    int x = JOptionPane.showConfirmDialog(mainForm, message, "Confirm", JOptionPane.YES_NO_CANCEL_OPTION);
+                    if (x == JOptionPane.YES_OPTION) {
+                        if (mainForm.getFile() == null) {
+                            saveAsToFile(mainForm, chooser);
+                        } else {
+                            writeTextAreaToFile(mainForm, chooser);
+                        }
+                    }
+                    // user click close
+                    if (x == JOptionPane.CANCEL_OPTION) {
+                        return;
+                    }
+                    // user click no
+                    if (x == JOptionPane.NO_OPTION) {
+                        System.exit(0);
+                    }
+                    
+                }
+            }
+        });
+    }
 }
