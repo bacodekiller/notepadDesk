@@ -24,15 +24,15 @@ public class MenuEdit {
     public void controller(MainForm mainForm) {
         UndoManager manager = new UndoManager();
         mainForm.getTxtArea().getDocument().addUndoableEditListener(manager);
-        
+
         enableEdit(mainForm);
         checkUndoRedo(mainForm, manager);
-        
+
         undo(mainForm, manager);
         redo(mainForm, manager);
         copyPasteCut(mainForm);
         selectAll(mainForm);
-        
+
         findController(mainForm);
         replaceController(mainForm);
         changeFontController(mainForm);
@@ -45,7 +45,6 @@ public class MenuEdit {
         mainForm.getEditCut().setEnabled(false);
         mainForm.getFind().setEnabled(false);
         mainForm.getReplace().setEnabled(false);
-        mainForm.getEditDelete().setEnabled(false);
 
         // check when content text area change
         mainForm.getTxtArea().addCaretListener(new CaretListener() {
@@ -54,20 +53,24 @@ public class MenuEdit {
                 String textCurrent = mainForm.getTxtArea().getText();
                 // can undo redo when user change text
                 if (textCurrent.length() != 0) {
-                    mainForm.getEditCopy().setEnabled(true);
-                    mainForm.getEditCut().setEnabled(true);
                     mainForm.getFind().setEnabled(true);
                     mainForm.getReplace().setEnabled(true);
-                    mainForm.getEditDelete().setEnabled(true);
                 }
+                // can show cut, copy
+                if (mainForm.getTxtArea().getSelectedText() != null) {
+                    mainForm.getEditCut().setEnabled(true);
+                    mainForm.getEditCopy().setEnabled(true);
+                } else {
+                    mainForm.getEditCut().setEnabled(false);
+                    mainForm.getEditCopy().setEnabled(false);
+                }
+
             }
         });
     }
 
     // undo
     private void undo(MainForm mainForm, UndoManager manager) {
-        //  FIXME: check can not undo, redo
-        // FIXME: have undo then show redo
         mainForm.getEditUndo().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -91,11 +94,11 @@ public class MenuEdit {
         Action copy = new DefaultEditorKit.CopyAction();
         Action paste = new DefaultEditorKit.PasteAction();
         Action cut = new DefaultEditorKit.CutAction();
-        
+
         mainForm.getEditCopy().addActionListener(copy);
         mainForm.getEditPaste().addActionListener(paste);
         mainForm.getEditCut().addActionListener(cut);
-        
+
     }
 
     // select all
@@ -116,7 +119,7 @@ public class MenuEdit {
                 FindForm findForm = new FindForm(mainForm, true);
                 findForm.setVisible(true);
                 findForm.getBtnFind().setEnabled(false);
-                
+
                 checkEmptyFind(findForm);
                 find(mainForm, findForm);
                 cancelFind(findForm);
@@ -191,7 +194,7 @@ public class MenuEdit {
                 replaceForm.setVisible(true);
                 replaceForm.getBtnReplace().setEnabled(false);
                 replaceForm.getBtnReplaceAll().setEnabled(false);
-                
+
                 checkEmptyReplace(replaceForm);
                 replace(mainForm, replaceForm);
                 replaceAll(mainForm, replaceForm);
@@ -226,7 +229,7 @@ public class MenuEdit {
                 String textReplace = replaceForm.getTxtReplace().getText();
                 mainForm.getTxtArea().setText(textAreaCurrent.replaceFirst(textFind, textReplace));
                 int indexCurrent = mainForm.getTxtArea().getText().lastIndexOf(textReplace) + textReplace.length();
-                
+
                 int indexTextSearch = -1;
                 indexTextSearch = mainForm.getTxtArea().getText().indexOf(textFind, indexCurrent);
                 // check have text want to search or not
@@ -276,7 +279,7 @@ public class MenuEdit {
         mainForm.getTxtArea().addCaretListener(new CaretListener() {
             @Override
             public void caretUpdate(CaretEvent e) {
-                
+
                 if (manager.canUndo()) {
                     mainForm.getEditUndo().setEnabled(true);
                 } else {
@@ -290,8 +293,10 @@ public class MenuEdit {
             }
         });
     }
-    
-    private void changeFontController (MainForm mainForm){
+
+    private void changeFontController(MainForm mainForm) {
         ChangeFontForm changeFontForm = new ChangeFontForm();
     }
 }
+//khi nhan new thi khong dc
+//thieu select all

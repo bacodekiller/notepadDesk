@@ -28,7 +28,7 @@ public class MenuFile {
     // controller file
     public void controller(MainForm mainForm) {
         JFileChooser chooser = new JFileChooser();
-        
+
         setupFileChoose(chooser);
         newFile(mainForm, chooser);
         openFile(mainForm, chooser);
@@ -36,7 +36,7 @@ public class MenuFile {
         saveAsFile(mainForm, chooser);
         exitNote(mainForm, chooser);
         checkClose(mainForm, chooser);
-        
+
         checkSaved(mainForm);
     }
 
@@ -52,7 +52,7 @@ public class MenuFile {
                     return f.getName().endsWith(".java");
                 }
             }
-            
+
             @Override
             public String getDescription() {
                 return "Java Source File(*.java)";
@@ -69,7 +69,7 @@ public class MenuFile {
                     return f.getName().endsWith(".txt");
                 }
             }
-            
+
             @Override
             public String getDescription() {
                 return "Text Files(*.txt)";
@@ -78,7 +78,7 @@ public class MenuFile {
 
         // set current directory
         chooser.setCurrentDirectory(new File("."));
-        
+
     }
 
     // allow user save file
@@ -225,6 +225,7 @@ public class MenuFile {
             }
         }
         mainForm.setFile(checkFile);
+        mainForm.setTextCheckSaved("");
         writeTextAreaToFile(mainForm, chooser);
     }
 
@@ -288,7 +289,8 @@ public class MenuFile {
                     if (x == JOptionPane.NO_OPTION) {
                         System.exit(0);
                     }
-                    
+                } else {
+                    System.exit(0);
                 }
             }
         });
