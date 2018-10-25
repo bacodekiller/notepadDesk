@@ -23,7 +23,7 @@ import javax.swing.filechooser.FileFilter;
  *
  * @author Sharp team
  */
-public class MenuFile {
+public class FileController {
 
     // controller file
     public void controller(MainForm mainForm) {

@@ -6,13 +6,13 @@ import form.MainForm;
  *
  * @author Sharp team
  */
-public class Main {
+public class MainController {
     public static void main(String[] args) {
         MainForm mainForm = new MainForm();
         mainForm.setVisible(true);
-        MenuEdit edit = new MenuEdit();
+        EditController edit = new EditController();
         edit.controller(mainForm);
-        MenuFile file = new MenuFile();
+        FileController file = new FileController();
         file.controller(mainForm);
     }
 }

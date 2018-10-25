@@ -154,8 +154,14 @@ public class MainForm extends javax.swing.JFrame {
     public void setTextCheckSaved(String textCheckSaved) {
         this.textCheckSaved = textCheckSaved;
     }
-    
-    
+
+    public JMenuItem getEditChangeFont() {
+        return editChangeFont;
+    }
+
+    public void setEditChangeFont(JMenuItem editChangeFont) {
+        this.editChangeFont = editChangeFont;
+    }
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
