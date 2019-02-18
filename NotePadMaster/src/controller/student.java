@@ -12,6 +12,6 @@ package controller;
 public class student {
     public static void main(String[] args) {
         System.out.println("haha");
-        int student  = 1;
+        int student  = 26;
     }
 }
